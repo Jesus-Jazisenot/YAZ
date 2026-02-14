@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Yaz 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e6739f;
+            --secondary: #fbb4d4;
+            --accent: #f095ba;
+            --warm: #ff9a8b;
+            --dark: #4a2c3e;
+            --light: #fff5f8;
+            --gradient: linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%);
+            --warm-gradient: linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Floating elements background */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.12;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.12;
+            }
+            90% {
+                opacity: 0.12;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(92, 158, 173, 0.05) 0%, rgba(168, 216, 230, 0.1) 100%);
+        }
+
+        .welcome-screen h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInDown 1s ease;
+            font-weight: 700;
+        }
+
+        .welcome-screen .subtitle {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            animation: fadeIn 1s ease 0.3s both;
+            font-weight: 300;
+        }
+
+        .welcome-screen p {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 45px;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+
+        .start-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 18px 55px;
+            font-size: 1.15rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 10px 35px rgba(92, 158, 173, 0.35);
+            transition: all 0.4s ease;
+            animation: fadeIn 1s ease 1s both;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 45px rgba(92, 158, 173, 0.45);
+        }
+
+        /* Section styling */
+        .section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+            margin-bottom: 40px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+            padding-top: 50px;
+        }
+
+        .section-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: #5a7a85;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* 14 Things Card */
+        .things-grid {
+            display: grid;
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .thing-card {
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(92, 158, 173, 0.12);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.6s ease forwards;
+            transition: all 0.4s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .thing-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(92, 158, 173, 0.18);
+            border-left-color: var(--primary);
+        }
+
+        .thing-card .number {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 38px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .thing-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .thing-card p {
+            color: #5a7a85;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: white;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 8px 40px rgba(92, 158, 173, 0.15);
+            margin-bottom: 35px;
+        }
+
+        .question {
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question h3 {
+            font-size: 1.35rem;
+            margin-bottom: 28px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 14px;
+        }
+
+        .quiz-option {
+            background: var(--light);
+            border: 2px solid transparent;
+            padding: 16px 22px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.02rem;
+            font-weight: 400;
+        }
+
+        .quiz-option:hover {
+            background: rgba(168, 216, 230, 0.2);
+            border-color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            background: var(--gradient);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .quiz-result {
+            display: none;
+            text-align: center;
+            padding: 35px;
+        }
+
+        .quiz-result.show {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .quiz-result h3 {
+            font-size: 2.2rem;
+            margin-bottom: 18px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .quiz-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 25px 0;
+        }
+
+        .quiz-result p {
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        /* Playlist */
+        .playlist {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 35px;
+        }
+
+        .song-card {
+            background: white;
+            padding: 22px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(92, 158, 173, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: all 0.4s ease;
+            animation: slideUp 0.6s ease forwards;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .song-card:hover {
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(230, 115, 159, 0.25);
+        }
+
+        .song-icon {
+            background: var(--gradient);
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(92, 158, 173, 0.25);
+        }
+
+        .song-info h4 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .song-info p {
+            color: #5a7a85;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        /* Fortune Cookies */
+        .fortune-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .fortune-cookie {
+            background: white;
+            padding: 32px 22px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(92, 158, 173, 0.12);
+            position: relative;
+            overflow: hidden;
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fortune-cookie::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .fortune-cookie:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 35px rgba(92, 158, 173, 0.2);
+        }
+
+        .fortune-cookie:hover::before {
+            transform: scaleX(1);
+        }
+
+        .fortune-cookie .cookie-icon {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            filter: grayscale(0.2);
+        }
+
+        .fortune-cookie.opened .cookie-icon {
+            display: none;
+        }
+
+        .fortune-message {
+            display: none;
+            font-size: 0.98rem;
+            color: var(--dark);
+            line-height: 1.6;
+            font-weight: 400;
+            padding: 10px;
+        }
+
+        .fortune-cookie.opened .fortune-message {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin: 45px 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 16px 38px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1.02rem;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 6px 20px rgba(92, 158, 173, 0.25);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(92, 158, 173, 0.35);
+        }
+
+        .nav-btn.secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(92, 158, 173, 0.15);
+        }
+
+        .nav-btn.secondary:hover {
+            background: var(--light);
+        }
+
+        /* Final Message */
+        .final-message {
+            text-align: center;
+            padding: 70px 25px;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .final-message h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            margin-bottom: 35px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeIn 1s ease;
+            font-weight: 700;
+        }
+
+        .final-message p {
+            font-size: 1.25rem;
+            color: var(--dark);
+            margin-bottom: 22px;
+            animation: fadeIn 1s ease 0.3s both;
+            font-weight: 300;
+        }
+
+        .final-emoji {
+            font-size: 5.5rem;
+            margin: 35px 0;
+            animation: bounce 1s ease 0.6s both;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-25px);
+            }
+        }
+
+        /* Stagger animations */
+        .thing-card:nth-child(1) { animation-delay: 0.1s; }
+        .thing-card:nth-child(2) { animation-delay: 0.15s; }
+        .thing-card:nth-child(3) { animation-delay: 0.2s; }
+        .thing-card:nth-child(4) { animation-delay: 0.25s; }
+        .thing-card:nth-child(5) { animation-delay: 0.3s; }
+        .thing-card:nth-child(6) { animation-delay: 0.35s; }
+        .thing-card:nth-child(7) { animation-delay: 0.4s; }
+        .thing-card:nth-child(8) { animation-delay: 0.45s; }
+        .thing-card:nth-child(9) { animation-delay: 0.5s; }
+        .thing-card:nth-child(10) { animation-delay: 0.55s; }
+        .thing-card:nth-child(11) { animation-delay: 0.6s; }
+        .thing-card:nth-child(12) { animation-delay: 0.65s; }
+        .thing-card:nth-child(13) { animation-delay: 0.7s; }
+        .thing-card:nth-child(14) { animation-delay: 0.75s; }
+
+        .song-card:nth-child(1) { animation-delay: 0.1s; }
+        .song-card:nth-child(2) { animation-delay: 0.2s; }
+        .song-card:nth-child(3) { animation-delay: 0.3s; }
+        .song-card:nth-child(4) { animation-delay: 0.4s; }
+        .song-card:nth-child(5) { animation-delay: 0.5s; }
+        .song-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @media (max-width: 600px) {
+            .welcome-screen h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .fortune-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background -->
+    <div class="floating-bg" id="floatingBackground"></div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <h1>Para Yaz 💕</h1>
+        <p class="subtitle">Feliz 14 de Febrero</p>
+        <p>Hice algo especial para ti...</p>
+        <button class="start-btn" onclick="startExperience()">Abrir ✨</button>
+    </div>
+
+    <div class="container" id="mainContent" style="display: none;">
+        <!-- Section 1: 14 Things -->
+        <div class="section active" id="section1">
+            <div class="section-header">
+                <h2>14 Cosas que Me Gustan de Ti</h2>
+                <p>Porque hoy es 14 y eres especial</p>
+            </div>
+            
+            <div class="things-grid">
+                <div class="thing-card">
+                    <span class="number">1</span>
+                    <h3>Tu Sinceridad</h3>
+                    <p>Me encanta cómo tocas los temas y das apoyo e opinión acerca de lo que te parece correcto</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">2</span>
+                    <h3>Tu Sentido del Humor</h3>
+                    <p>A pesar de que tengo un sentido del humor bien roto, sabes cómo sobrellevarlo y divertirte conmigo</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">3</span>
+                    <h3>Tu Sonrisa</h3>
+                    <p>Tienes una sonrisa de la que no me canso de ver</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">4</span>
+                    <h3>Cómo No Te Rindes</h3>
+                    <p>Me gusta ver cómo progresas e intentas mejorar día con día (te exijo porque sé que puedes)</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">5</span>
+                    <h3>Tu Forma de Escuchar</h3>
+                    <p>En verdad prestas atención y sabes escuchar a las personas</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">6</span>
+                    <h3>Tu Amabilidad</h3>
+                    <p>Eres una persona de naturaleza muy amable</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">7</span>
+                    <h3>Tus Gustos Musicales</h3>
+                    <p>Que escuches música que sabes que me gusta e incluso la pongas de estado me pone feliz</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">8</span>
+                    <h3>Cómo Me Haces Sentir</h3>
+                    <p>A tu lado me haces sentir muy feliz</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">9</span>
+                    <h3>Los Momentos Random</h3>
+                    <p>Los momentos en donde simplemente surge un tema o situación en el cual nos divertimos mucho</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">10</span>
+                    <h3>Tus Ocurrencias</h3>
+                    <p>Siento que en este punto entro más yo, pero tú tampoco te escapas jejeje</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">11</span>
+                    <h3>La Conexión</h3>
+                    <p>Seamos pareja o no, nos sentimos cómodos estando así, y esa conexión se siente muy bonita y la disfrutamos mucho</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">12</span>
+                    <h3>Que Seas Honesta</h3>
+                    <p>Que seas honesta incluso en los temas complicados me gusta, porque no hay tiempo de dejarme con dudas</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">13</span>
+                    <h3>Cómo Siempre Buscas la Manera</h3>
+                    <p>Que no te cierres en los momentos difíciles</p>
+                </div>
+                <div class="thing-card">
+                    <span class="number">14</span>
+                    <h3>Por Ser Tú</h3>
+                    <p>Esto no necesita explicación ✨</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="nextSection(2)">Siguiente →</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Quiz -->
+        <div class="section" id="section2">
+            <div class="section-header">
+                <h2>¿Qué Tanto Nos Conocemos?</h2>
+                <p>Un mini quiz divertido sobre nosotros</p>
+            </div>
+
+            <div class="quiz-container">
+                <div class="question active" data-question="1">
+                    <h3>¿Cuál es o son mis canciones favoritas o banda?</h3>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, 'a')">Breaking The Habit</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'b')">La Chona</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'c')">Red Hot Chili Peppers</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'd')">El Duki</div>
+                    </div>
+                </div>
+
+                <div class="question" data-question="2">
+                    <h3>¿Qué es lo que más disfruto hacer en mis tiempos libres?</h3>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, 'a')">Ir al gym</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'b')">Descansar</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'c')">Ir con mis abuelos</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'd')">Jugar</div>
+                    </div>
+                </div>
+
+                <div class="question" data-question="3">
+                    <h3>¿Qué es lo que más me enoja?</h3>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, 'a')">Las personas tontas</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'b')">Que no me escuchen</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'c')">Las incongruencias</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'd')">Todas las anteriores</div>
+                    </div>
+                </div>
+
+                <div class="question" data-question="4">
+                    <h3>¿Cuál es el animal o sticker que más disfruto usar?</h3>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, 'a')">Gatitos</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'b')">Perros</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'c')">Águilas</div>
+                        <div class="quiz-option" onclick="selectOption(this, 'd')">Leones</div>
+                    </div>
+                </div>
+
+                <div class="quiz-result">
+                    <h3>¡Terminaste!</h3>
+                    <div class="quiz-score" id="quizScore">4/4</div>
+                    <p id="quizMessage">¡Ya me conoces bastante bien! 😊</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn secondary" onclick="nextSection(1)">← Anterior</button>
+                <button class="nav-btn" onclick="nextSection(3)">Siguiente →</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Playlist -->
+        <div class="section" id="section3">
+            <div class="section-header">
+                <h2>Playlist para Ti 🎵</h2>
+                <p>Canciones que me transmiten paz y felicidad</p>
+            </div>
+
+            <div class="playlist">
+                <div class="song-card" onclick="window.open('https://www.youtube.com/results?search_query=Shawn+Mendes+There%27s+Nothing+Holdin%27+Me+Back', '_blank')">
+                    <div class="song-icon">🎵</div>
+                    <div class="song-info">
+                        <h4>There's Nothing Holdin' Me Back</h4>
+                        <p>Shawn Mendes - Me transmite paz y felicidad, y tiene cierta relación contigo</p>
+                    </div>
+                </div>
+                <div class="song-card" onclick="window.open('https://www.youtube.com/results?search_query=JVKE+golden+hour', '_blank')">
+                    <div class="song-icon">🌅</div>
+                    <div class="song-info">
+                        <h4>Golden Hour</h4>
+                        <p>JVKE - Como la anterior, me transmite paz y felicidad, y tienen cierta relación contigo</p>
+                    </div>
+                </div>
+                <div class="song-card" onclick="window.open('https://www.youtube.com/results?search_query=Young+Cister+Kreamly+Q%27LO', '_blank')">
+                    <div class="song-icon">🎶</div>
+                    <div class="song-info">
+                        <h4>Q'LO</h4>
+                        <p>Young Cister, Kreamly - Estaba dudando si meterla pero pues ya ves jajajaja</p>
+                    </div>
+                </div>
+                <div class="song-card" onclick="window.open('https://www.youtube.com/results?search_query=Zoe+Luna', '_blank')">
+                    <div class="song-icon">🌙</div>
+                    <div class="song-info">
+                        <h4>Luna</h4>
+                        <p>Zoé - El tono tranquilo y un poco de letra se asemejan a ti</p>
+                    </div>
+                </div>
+                <div class="song-card" onclick="window.open('https://www.youtube.com/results?search_query=KYR4+Cantandote+al+Oido', '_blank')">
+                    <div class="song-icon">💕</div>
+                    <div class="song-info">
+                        <h4>Cantándote al Oído</h4>
+                        <p>KYR4 - Fue una de mis canciones favoritas</p>
+                    </div>
+                </div>
+                <div class="song-card">
+                    <div class="song-icon">❓</div>
+                    <div class="song-info">
+                        <h4>???</h4>
+                        <p>Intenta adivinar la 6ta 😉</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn secondary" onclick="nextSection(2)">← Anterior</button>
+                <button class="nav-btn" onclick="nextSection(4)">Siguiente →</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Fortune Cookies -->
+        <div class="section" id="section4">
+            <div class="section-header">
+                <h2>Fortune Cookies 🥠</h2>
+                <p>Toca cada galleta para ver el mensaje</p>
+            </div>
+
+            <div class="fortune-container">
+                <div class="fortune-cookie" onclick="openFortune(this)">
+                    <div class="cookie-icon">🥠</div>
+                    <p class="fortune-message">"Tu esfuerzo lo agradezco, sé que en parte lo haces por mí"</p>
+                </div>
+                <div class="fortune-cookie" onclick="openFortune(this)">
+                    <div class="cookie-icon">🥠</div>
+                    <p class="fortune-message">"Estoy orgulloso de ti"</p>
+                </div>
+                <div class="fortune-cookie" onclick="openFortune(this)">
+                    <div class="cookie-icon">🥠</div>
+                    <p class="fortune-message">"Muah 💗 Un beso desde mi casita"</p>
+                </div>
+                <div class="fortune-cookie" onclick="openFortune(this)">
+                    <div class="cookie-icon">🥠</div>
+                    <p class="fortune-message">"La felicidad llegó a tu vida con mi nombre jejeje"</p>
+                </div>
+                <div class="fortune-cookie" onclick="openFortune(this)">
+                    <div class="cookie-icon">🥠</div>
+                    <p class="fortune-message">"Eres increíble, bella y fuerte"</p>
+                </div>
+                <div class="fortune-cookie" onclick="openFortune(this)">
+                    <div class="cookie-icon">🥠</div>
+                    <p class="fortune-message">"¡Gracias!"</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn secondary" onclick="nextSection(3)">← Anterior</button>
+                <button class="nav-btn" onclick="showFinalMessage()">Finalizar ✨</button>
+            </div>
+        </div>
+
+        <!-- Final Message -->
+        <div class="section" id="finalSection">
+            <div class="final-message">
+                <h2>Eso es Todo 💕</h2>
+                <p>Solo quería hacer algo diferente para el 14</p>
+                <p>Me caes increíble y quería que lo supieras</p>
+                <div class="final-emoji">✨</div>
+                <p style="font-size: 1rem; color: #5a7a85;">Feliz San Valentín, Yaz 💗</p>
+                <div class="nav-buttons" style="margin-top: 45px;">
+                    <button class="nav-btn secondary" onclick="nextSection(1)">Ver Todo de Nuevo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating elements
+        function createFloatingElements() {
+            const container = document.getElementById('floatingBackground');
+            const elements = ['💕', '✨', '💗', '💫', '🌸', '💖'];
+            
+            for (let i = 0; i < 12; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.textContent = elements[Math.floor(Math.random() * elements.length)];
+                element.style.left = Math.random() * 100 + '%';
+                element.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                element.style.animationDelay = Math.random() * 20 + 's';
+                element.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                container.appendChild(element);
+            }
+        }
+
+        // Start experience
+        function startExperience() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        // Navigate between sections
+        function nextSection(sectionNumber) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(`section${sectionNumber}`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Quiz functionality
+        let currentQuestion = 1;
+        let score = 0;
+        const answers = { 1: 'a', 2: 'b', 3: 'd', 4: 'b' }; // Correct answers
+
+        function selectOption(element, answer) {
+            const question = element.closest('.question');
+            const questionNum = parseInt(question.dataset.question);
+            
+            // Remove previous selections
+            question.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Mark as selected
+            element.classList.add('selected');
+            
+            // Check answer
+            if (answer === answers[questionNum]) {
+                score++;
+            }
+            
+            // Move to next question or show results
+            setTimeout(() => {
+                if (currentQuestion < 4) {
+                    question.classList.remove('active');
+                    currentQuestion++;
+                    document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                } else {
+                    showQuizResults();
+                }
+            }, 600);
+        }
+
+        function showQuizResults() {
+            document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+            const resultDiv = document.querySelector('.quiz-result');
+            const scoreDiv = document.getElementById('quizScore');
+            const messageDiv = document.getElementById('quizMessage');
+            
+            scoreDiv.textContent = `${score}/4`;
+            
+            if (score === 4) {
+                messageDiv.textContent = '¡Perfecto! Ya me conoces bastante bien 😊';
+            } else if (score >= 2) {
+                messageDiv.textContent = '¡No está mal! Vamos conociéndonos 💕';
+            } else {
+                messageDiv.textContent = 'Jaja bueno, todavía hay tiempo de conocernos más 😄';
+            }
+            
+            resultDiv.classList.add('show');
+        }
+
+        // Fortune cookie
+        function openFortune(element) {
+            if (!element.classList.contains('opened')) {
+                element.classList.add('opened');
+            }
+        }
+
+        // Show final message
+        function showFinalMessage() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById('finalSection').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        createFloatingElements();
+    </script>
+</body>
+</html>
